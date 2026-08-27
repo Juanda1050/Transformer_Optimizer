@@ -1,0 +1,3 @@
+/Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles/transformer_optimizer.dir
+/Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles/edit_cache.dir
+/Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles/rebuild_cache.dir
