@@ -8,24 +8,41 @@
 
 namespace
 {
-  void printDesignSummary(const EvaluationResult &result)
+  void printDesignSummary(
+      const EvaluationResult &reference,
+      const EvaluationResult &best)
   {
     std::cout << std::fixed << std::setprecision(6);
-    std::cout << "PerdidasTotalesDeReferencia: " << result.totalLosses << '\n';
-    std::cout << "MejoresPerdidasTotalesFactibles: " << result.totalLosses << '\n';
-    std::cout << "CostoFabricacionFactible: " << result.manufacturingCost << '\n';
-    std::cout << "TemperaturaFactible: " << result.temperature << '\n';
-    std::cout << "ImpedanciaFactible: " << result.impedance << '\n';
-    std::cout << "DiametroFactible: " << result.diameter << '\n';
+
+    std::cout << "PerdidasTotalesDeReferencia: "
+              << reference.totalLosses << '\n';
+
+    std::cout << "MejoresPerdidasTotalesFactibles: "
+              << best.totalLosses << '\n';
+
+    std::cout << "CostoFabricacionFactible: "
+              << best.manufacturingCost << '\n';
+
+    std::cout << "TemperaturaFactible: "
+              << best.temperature << '\n';
+
+    std::cout << "ImpedanciaFactible: "
+              << best.impedance << '\n';
+
+    std::cout << "DiametroFactible: "
+              << best.diameter << '\n';
+
     std::cout << "DisenoFactible: "
-              << result.design.core->id << " / "
-              << result.design.conductor->id << " / "
-              << result.design.cooling->id << " / Flujo="
-              << result.design.fluxDensity << " / Corriente="
-              << result.design.currentDensity << " / Capas="
-              << result.design.layers << " / Conductos="
-              << result.design.ducts << '\n';
-    std::cout << "Factible: " << std::boolalpha << result.feasible << '\n';
+              << best.design.core->id << " / "
+              << best.design.conductor->id << " / "
+              << best.design.cooling->id << " / Flujo="
+              << best.design.fluxDensity << " / Corriente="
+              << best.design.currentDensity << " / Capas="
+              << best.design.layers << " / Conductos="
+              << best.design.ducts << '\n';
+
+    std::cout << "Factible: "
+              << std::boolalpha << best.feasible << '\n';
   }
 }
 
@@ -48,7 +65,7 @@ int main()
   const EvaluationResult reference = evaluateDesign(instances[0], referenceDesign);
   const EvaluationResult best = optimizeDesign(instances[0]);
 
-  printDesignSummary(best);
+  printDesignSummary(reference, best);
 
   const bool validationOk = reporting::validateOptimizationAgainstBruteforce();
   std::cout << "ValidacionNumerica: " << std::boolalpha << validationOk << '\n';

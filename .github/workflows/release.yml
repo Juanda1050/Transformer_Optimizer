@@ -1,4 +1,4 @@
-name: Release
+name: Build and Release
 
 on:
   push:
@@ -14,39 +14,56 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        run: cmake -S . -B build
 
-      - name: Build
+      - name: Build Release
         run: cmake --build build --config Release
-
-      - name: Run executable
-        shell: pwsh
-        run: |
-          $exe = Get-ChildItem -Path build -Filter "transformer_optimizer.exe" -Recurse | Select-Object -First 1
-
-          if (-not $exe) {
-            Write-Error "Executable not found"
-            exit 1
-          }
-
-          & $exe.FullName
 
       - name: Prepare package
         shell: pwsh
         run: |
+          $exe = Get-ChildItem -Path build -Filter "transformer_optimizer.exe" -Recurse |
+                 Select-Object -First 1
+
+          if (-not $exe) {
+            Write-Error "transformer_optimizer.exe was not found."
+            exit 1
+          }
+
           New-Item -ItemType Directory -Force -Path package | Out-Null
 
-          $exe = Get-ChildItem -Path build -Filter "transformer_optimizer.exe" -Recurse | Select-Object -First 1
+          Copy-Item $exe.FullName "package/transformer_optimizer.exe"
 
-          Copy-Item $exe.FullName package/transformer_optimizer.exe
+      - name: Run application and validate
+        shell: pwsh
+        working-directory: package
+        run: |
+          ./transformer_optimizer.exe
 
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Application validation failed."
+            exit 1
+          }
+
+      - name: Add results
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "package/results.csv")) {
+            Write-Error "results.csv was not generated."
+            exit 1
+          }
+
+      - name: Create Windows package
+        shell: pwsh
+        run: |
+          Rename-Item package "Transformer_Optimizer-Windows-x64"
           Compress-Archive `
-            -Path package/transformer_optimizer.exe `
-            -DestinationPath Transformer_Optimizer-Windows-x64.zip
+            -Path "Transformer_Optimizer-Windows-x64" `
+            -DestinationPath "Transformer_Optimizer-Windows-x64.zip"
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
@@ -59,7 +76,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Configure CMake
@@ -68,31 +85,50 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"
 
-      - name: Build
+      - name: Build Release
         run: cmake --build build --config Release
 
-      - name: Run executable
+      - name: Prepare package
         run: |
           EXE=$(find build -type f -name "transformer_optimizer" | head -n 1)
 
           if [ -z "$EXE" ]; then
-            echo "Executable not found"
+            echo "transformer_optimizer was not found."
             exit 1
           fi
 
-          "$EXE"
-
-      - name: Prepare package
-        run: |
           mkdir -p package
 
-          EXE=$(find build -type f -name "transformer_optimizer" | head -n 1)
-
           cp "$EXE" package/transformer_optimizer
-
           chmod +x package/transformer_optimizer
 
-          zip -r Transformer_Optimizer-macOS-universal.zip package/transformer_optimizer
+      - name: Run application and validate
+        working-directory: package
+        run: |
+          ./transformer_optimizer
+
+      - name: Check results
+        run: |
+          if [ ! -f "package/results.csv" ]; then
+            echo "results.csv was not generated."
+            exit 1
+          fi
+
+      - name: Verify Universal Binary
+        run: |
+          file package/transformer_optimizer
+
+          file package/transformer_optimizer | grep -q "arm64"
+
+          file package/transformer_optimizer | grep -q "x86_64"
+
+      - name: Create macOS package
+        run: |
+          mv package Transformer_Optimizer-macOS-universal
+
+          zip -r \
+            Transformer_Optimizer-macOS-universal.zip \
+            Transformer_Optimizer-macOS-universal
 
       - name: Upload macOS artifact
         uses: actions/upload-artifact@v4
@@ -112,18 +148,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: windows-x64
-          path: release
+          path: release-assets
 
       - name: Download macOS artifact
         uses: actions/download-artifact@v4
         with:
           name: macos-universal
-          path: release
+          path: release-assets
 
-      - name: Create Release
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            release/Transformer_Optimizer-Windows-x64.zip
-            release/Transformer_Optimizer-macOS-universal.zip
+            release-assets/Transformer_Optimizer-Windows-x64.zip
+            release-assets/Transformer_Optimizer-macOS-universal.zip
           generate_release_notes: true
