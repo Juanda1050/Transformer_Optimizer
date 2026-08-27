@@ -156,13 +156,12 @@ bool reporting::writeResultsCsv(const std::string &outputPath)
     return false;
 
   const auto &instances = getTransformerInstances();
-  for (std::size_t instanceIndex = 0; instanceIndex < instances.size(); ++instanceIndex)
-  {
-    const auto &instance = instances[instanceIndex];
-    const auto topDesigns = getTopDesigns(instance, 10);
 
-    output << "Instancia" << instance.id << "\n";
-    output << "Instancia,Ranking,MaterialNucleo,MaterialConductor,Refri,Flujo,Corriente,Capas,Ductos,CostoFabricacion,PerdidasTotales,Temperatura,Impedancia,Diametro\n";
+  output << "Instancia,Ranking,Material Nucleo,Material Conductor,Refrigeracion,Flujo,Corriente,Capas,Conductos,Costo Fabricacion,Perdidas Totales,Temperatura,Impedancia,Diametro\n";
+
+  for (const auto &instance : instances)
+  {
+    const auto topDesigns = getTopDesigns(instance, 10);
 
     for (std::size_t i = 0; i < topDesigns.size(); ++i)
     {
@@ -181,11 +180,6 @@ bool reporting::writeResultsCsv(const std::string &outputPath)
              << design.temperature << ','
              << design.impedance << ','
              << design.diameter << '\n';
-    }
-
-    if (instanceIndex + 1 != instances.size())
-    {
-      output << '\n';
     }
   }
 

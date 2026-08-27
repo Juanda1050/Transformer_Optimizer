@@ -8,6 +8,15 @@
 
 namespace
 {
+  constexpr double MIN_FLUX_DENSITY = 1.35;
+  constexpr double FLUX_STEP = 0.05;
+  constexpr double MIN_CURRENT_DENSITY = 1.60;
+  constexpr double CURRENT_STEP = 0.10;
+  constexpr int MIN_LAYERS = 4;
+  constexpr int MAX_LAYERS = 16;
+  constexpr int MIN_DUCTS = 0;
+  constexpr int MAX_DUCTS = 5;
+
   bool rankedBefore(const EvaluationResult &lhs, const EvaluationResult &rhs)
   {
     if (!rhs.feasible)
@@ -33,7 +42,7 @@ namespace
     return static_cast<std::size_t>(std::floor(span / step + 1e-9)) + 1;
   }
 
-  std::size_t countExhaustiveDesigns(const TransformerInstance &instance)
+  std::size_t countExhaustiveDesigns()
   {
     const auto &cores = getCoreMaterials();
     const auto &conductors = getConductorMaterials();
@@ -47,10 +56,10 @@ namespace
       {
         for (const auto &cooling : coolingOptions)
         {
-          const std::size_t fluxSteps = countDensitySteps(1.35, core.maxFluxDensity, 0.05);
-          const std::size_t currentSteps = countDensitySteps(1.60, conductor.maxCurrentDensity, 0.10);
-          const std::size_t layerCount = 16 - 4 + 1;
-          const std::size_t ductCount = 5 - 0 + 1;
+          const std::size_t fluxSteps = countDensitySteps(MIN_FLUX_DENSITY, core.maxFluxDensity, FLUX_STEP);
+          const std::size_t currentSteps = countDensitySteps(MIN_CURRENT_DENSITY, conductor.maxCurrentDensity, CURRENT_STEP);
+          const std::size_t layerCount = static_cast<std::size_t>(MAX_LAYERS - MIN_LAYERS + 1);
+          const std::size_t ductCount = static_cast<std::size_t>(MAX_DUCTS - MIN_DUCTS + 1);
 
           total += fluxSteps * currentSteps * layerCount * ductCount;
         }
@@ -77,9 +86,8 @@ namespace
     if (!rankedBefore(candidate, topDesigns.back()))
       return;
 
-    topDesigns.pop_back();
-    const auto insertionPoint = std::lower_bound(topDesigns.begin(), topDesigns.end(), candidate, rankedBefore);
-    topDesigns.insert(insertionPoint, candidate);
+    topDesigns.back() = candidate;
+    std::sort(topDesigns.begin(), topDesigns.end(), rankedBefore);
   }
 }
 
@@ -93,10 +101,7 @@ std::vector<EvaluationResult> optimizeDesigns(const TransformerInstance &instanc
   const auto &coolingOptions = getCoolingOptions();
 
   std::vector<EvaluationResult> topDesigns;
-  topDesigns.reserve(std::min(limit, countExhaustiveDesigns(instance)));
-
-  std::size_t evaluated = 0;
-  const std::size_t expectedEvaluations = countExhaustiveDesigns(instance);
+  topDesigns.reserve(std::min(limit, countExhaustiveDesigns()));
 
   for (const auto &core : cores)
   {
@@ -104,16 +109,14 @@ std::vector<EvaluationResult> optimizeDesigns(const TransformerInstance &instanc
     {
       for (const auto &cooling : coolingOptions)
       {
-        for (double fluxDensity = 1.35; fluxDensity <= core.maxFluxDensity + 1e-9; fluxDensity += 0.05)
+        for (double fluxDensity = MIN_FLUX_DENSITY; fluxDensity <= core.maxFluxDensity + 1e-9; fluxDensity += FLUX_STEP)
         {
-          for (double currentDensity = 1.60; currentDensity <= conductor.maxCurrentDensity + 1e-9; currentDensity += 0.10)
+          for (double currentDensity = MIN_CURRENT_DENSITY; currentDensity <= conductor.maxCurrentDensity + 1e-9; currentDensity += CURRENT_STEP)
           {
-            for (int layers = 4; layers <= 16; ++layers)
+            for (int layers = MIN_LAYERS; layers <= MAX_LAYERS; ++layers)
             {
-              for (int ducts = 0; ducts <= 5; ++ducts)
+              for (int ducts = MIN_DUCTS; ducts <= MAX_DUCTS; ++ducts)
               {
-                ++evaluated;
-
                 Design design{&core, &conductor, &cooling, fluxDensity, currentDensity, layers, ducts};
                 const EvaluationResult candidate = evaluateDesign(instance, design);
 
@@ -128,10 +131,6 @@ std::vector<EvaluationResult> optimizeDesigns(const TransformerInstance &instanc
   }
 
   std::sort(topDesigns.begin(), topDesigns.end(), rankedBefore);
-
-  if (evaluated != expectedEvaluations)
-    return topDesigns;
-
   return topDesigns;
 }
 
