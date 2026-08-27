@@ -4,6 +4,8 @@ C++17 application for evaluating and optimizing transformer design alternatives 
 
 The application explores the available design space, evaluates each candidate, filters infeasible configurations, and returns the best alternatives according to a defined ranking strategy.
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Juanda1050/Transformer_Optimizer)
+
 ## Overview
 
 A transformer design can be represented by a combination of material selections and operating parameters. The goal of this project is to systematically evaluate those combinations and identify feasible designs with the lowest manufacturing cost.
