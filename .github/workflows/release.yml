@@ -57,19 +57,16 @@ jobs:
             exit 1
           }
 
-      - name: Create Windows package
+      - name: Prepare Windows release asset
         shell: pwsh
         run: |
-          Rename-Item package "Transformer_Optimizer-Windows-x64"
-          Compress-Archive `
-            -Path "Transformer_Optimizer-Windows-x64" `
-            -DestinationPath "Transformer_Optimizer-Windows-x64.zip"
+          Copy-Item "package/transformer_optimizer.exe" "Transformer_Optimizer-Windows-x64.exe"
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-x64
-          path: Transformer_Optimizer-Windows-x64.zip
+          path: Transformer_Optimizer-Windows-x64.exe
 
   build-macos:
     name: Build macOS Universal
@@ -122,19 +119,16 @@ jobs:
 
           file package/transformer_optimizer | grep -q "x86_64"
 
-      - name: Create macOS package
+      - name: Prepare macOS release asset
         run: |
-          mv package Transformer_Optimizer-macOS-universal
-
-          zip -r \
-            Transformer_Optimizer-macOS-universal.zip \
-            Transformer_Optimizer-macOS-universal
+          cp package/transformer_optimizer Transformer_Optimizer-macOS-universal
+          chmod +x Transformer_Optimizer-macOS-universal
 
       - name: Upload macOS artifact
         uses: actions/upload-artifact@v4
         with:
           name: macos-universal
-          path: Transformer_Optimizer-macOS-universal.zip
+          path: Transformer_Optimizer-macOS-universal
 
   release:
     name: Create GitHub Release
@@ -148,18 +142,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: windows-x64
-          path: release-assets
+          path: release-assets/windows
 
       - name: Download macOS artifact
         uses: actions/download-artifact@v4
         with:
           name: macos-universal
-          path: release-assets
+          path: release-assets/macos
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            release-assets/Transformer_Optimizer-Windows-x64.zip
-            release-assets/Transformer_Optimizer-macOS-universal.zip
+            release-assets/windows/Transformer_Optimizer-Windows-x64.exe
+            release-assets/macos/Transformer_Optimizer-macOS-universal
           generate_release_notes: true
