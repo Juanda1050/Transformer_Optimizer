@@ -7,8 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/transformer_optimizer.dir/src/main.cpp.o.d"
   "CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o"
   "CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o.d"
-  "transformer_optimizer"
-  "transformer_optimizer.pdb"
+  "bin/transformer_optimizer"
+  "bin/transformer_optimizer.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

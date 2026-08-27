@@ -16,6 +16,10 @@ add_executable(transformer_optimizer
     src/optimizer.cpp
 )
 
+set_target_properties(transformer_optimizer PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
+
 target_include_directories(transformer_optimizer
     PRIVATE
         include
