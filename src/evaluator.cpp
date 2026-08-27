@@ -10,7 +10,7 @@ namespace
   constexpr int MAX_LAYERS = 16;
 
   constexpr int MIN_DUCTS = 0;
-  constexpr int MAX_DUCTS = 8;
+  constexpr int MAX_DUCTS = 5;
 }
 
 EvaluationResult evaluateDesign(

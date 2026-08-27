@@ -12,6 +12,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(transformer_optimizer
     src/main.cpp
     src/data.cpp
+    src/evaluator.cpp
+    src/optimizer.cpp
 )
 
 target_include_directories(transformer_optimizer
