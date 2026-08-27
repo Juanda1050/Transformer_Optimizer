@@ -135,6 +135,39 @@ bool reporting::validateOptimizationAgainstBruteforce()
   return true;
 }
 
+void reporting::printTopDesignsReport(std::size_t topN)
+{
+  if (topN == 0)
+    return;
+
+  std::cout << std::fixed << std::setprecision(2);
+
+  for (const auto &instance : getTransformerInstances())
+  {
+    const auto topDesigns = getTopDesigns(instance, topN);
+
+    std::cout << "\nInstance_" << instance.id << "\n\n";
+    std::cout << "Rank | Core | Conductor | Cooling | Flux | Current | Layers | Ducts | Cost | Losses | Diameter\n";
+    std::cout << "----------------------------------------------------------------------------------------------------------\n";
+
+    for (std::size_t i = 0; i < topDesigns.size(); ++i)
+    {
+      const auto &result = topDesigns[i];
+      std::cout << std::setw(4) << (i + 1) << " | "
+                << std::setw(4) << result.design.core->id << " | "
+                << std::setw(9) << result.design.conductor->id << " | "
+                << std::setw(7) << result.design.cooling->id << " | "
+                << std::setw(4) << result.design.fluxDensity << " | "
+                << std::setw(7) << result.design.currentDensity << " | "
+                << std::setw(6) << result.design.layers << " | "
+                << std::setw(5) << result.design.ducts << " | "
+                << std::setw(8) << result.manufacturingCost << " | "
+                << std::setw(6) << result.totalLosses << " | "
+                << std::setw(8) << result.diameter << '\n';
+    }
+  }
+}
+
 void reporting::printBenchmarkSummary()
 {
   std::cout << "\nResumenDelBenchmark:\n";

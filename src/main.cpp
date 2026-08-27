@@ -53,6 +53,8 @@ int main()
   const bool validationOk = reporting::validateOptimizationAgainstBruteforce();
   std::cout << "ValidacionNumerica: " << std::boolalpha << validationOk << '\n';
 
+  reporting::printTopDesignsReport(10);
+
   reporting::printBenchmarkSummary();
 
   const bool csvOk = reporting::writeResultsCsv("results.csv");
