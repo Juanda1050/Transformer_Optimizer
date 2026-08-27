@@ -6,5 +6,6 @@
 #include "data.hpp"
 #include "evaluator.hpp"
 
-EvaluationResult optimizeDesign(const TransformerInstance &instance);
+std::vector<EvaluationResult> optimizeDesigns(const TransformerInstance &instance, std::size_t limit = 10);
 std::vector<EvaluationResult> getTopDesigns(const TransformerInstance &instance, std::size_t limit = 10);
+EvaluationResult optimizeDesign(const TransformerInstance &instance);

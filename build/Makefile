@@ -225,6 +225,30 @@ src/optimizer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.s
 .PHONY : src/optimizer.cpp.s
 
+src/reporting.o: src/reporting.cpp.o
+.PHONY : src/reporting.o
+
+# target to build an object file
+src/reporting.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/reporting.cpp.o
+.PHONY : src/reporting.cpp.o
+
+src/reporting.i: src/reporting.cpp.i
+.PHONY : src/reporting.i
+
+# target to preprocess a source file
+src/reporting.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/reporting.cpp.i
+.PHONY : src/reporting.cpp.i
+
+src/reporting.s: src/reporting.cpp.s
+.PHONY : src/reporting.s
+
+# target to generate assembly for a file
+src/reporting.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/reporting.cpp.s
+.PHONY : src/reporting.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -246,6 +270,9 @@ help:
 	@echo "... src/optimizer.o"
 	@echo "... src/optimizer.i"
 	@echo "... src/optimizer.s"
+	@echo "... src/reporting.o"
+	@echo "... src/reporting.i"
+	@echo "... src/reporting.s"
 .PHONY : help
 
 

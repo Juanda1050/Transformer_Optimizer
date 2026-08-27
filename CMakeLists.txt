@@ -14,6 +14,7 @@ add_executable(transformer_optimizer
     src/data.cpp
     src/evaluator.cpp
     src/optimizer.cpp
+    src/reporting.cpp
 )
 
 set_target_properties(transformer_optimizer PROPERTIES
