@@ -17,7 +17,7 @@ namespace
   constexpr int MIN_DUCTS = 0;
   constexpr int MAX_DUCTS = 5;
 
-  bool rankedBefore(const EvaluationResult &lhs, const EvaluationResult &rhs)
+  bool isBetter(const EvaluationResult &lhs, const EvaluationResult &rhs)
   {
     if (!rhs.feasible)
       return lhs.feasible;
@@ -79,15 +79,15 @@ namespace
     if (topDesigns.size() < limit)
     {
       topDesigns.push_back(candidate);
-      std::sort(topDesigns.begin(), topDesigns.end(), rankedBefore);
+      std::sort(topDesigns.begin(), topDesigns.end(), isBetter);
       return;
     }
 
-    if (!rankedBefore(candidate, topDesigns.back()))
+    if (!isBetter(candidate, topDesigns.back()))
       return;
 
     topDesigns.back() = candidate;
-    std::sort(topDesigns.begin(), topDesigns.end(), rankedBefore);
+    std::sort(topDesigns.begin(), topDesigns.end(), isBetter);
   }
 }
 
@@ -134,7 +134,7 @@ std::vector<EvaluationResult> optimizeDesigns(const TransformerInstance &instanc
     }
   }
 
-  std::sort(topDesigns.begin(), topDesigns.end(), rankedBefore);
+  std::sort(topDesigns.begin(), topDesigns.end(), isBetter);
   return topDesigns;
 }
 
