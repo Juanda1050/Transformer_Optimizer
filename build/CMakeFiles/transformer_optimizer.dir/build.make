@@ -100,19 +100,51 @@ CMakeFiles/transformer_optimizer.dir/src/data.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/transformer_optimizer.dir/src/data.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/juanda/Documents/Projects/transformer-optimizer/src/data.cpp -o CMakeFiles/transformer_optimizer.dir/src/data.cpp.s
 
+CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.o: CMakeFiles/transformer_optimizer.dir/flags.make
+CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.o: /Users/juanda/Documents/Projects/transformer-optimizer/src/evaluator.cpp
+CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.o: CMakeFiles/transformer_optimizer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.o -MF CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.o.d -o CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.o -c /Users/juanda/Documents/Projects/transformer-optimizer/src/evaluator.cpp
+
+CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/juanda/Documents/Projects/transformer-optimizer/src/evaluator.cpp > CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.i
+
+CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/juanda/Documents/Projects/transformer-optimizer/src/evaluator.cpp -o CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.s
+
+CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o: CMakeFiles/transformer_optimizer.dir/flags.make
+CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o: /Users/juanda/Documents/Projects/transformer-optimizer/src/optimizer.cpp
+CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o: CMakeFiles/transformer_optimizer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o -MF CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o.d -o CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o -c /Users/juanda/Documents/Projects/transformer-optimizer/src/optimizer.cpp
+
+CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/juanda/Documents/Projects/transformer-optimizer/src/optimizer.cpp > CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.i
+
+CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/juanda/Documents/Projects/transformer-optimizer/src/optimizer.cpp -o CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.s
+
 # Object files for target transformer_optimizer
 transformer_optimizer_OBJECTS = \
 "CMakeFiles/transformer_optimizer.dir/src/main.cpp.o" \
-"CMakeFiles/transformer_optimizer.dir/src/data.cpp.o"
+"CMakeFiles/transformer_optimizer.dir/src/data.cpp.o" \
+"CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.o" \
+"CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o"
 
 # External object files for target transformer_optimizer
 transformer_optimizer_EXTERNAL_OBJECTS =
 
 transformer_optimizer: CMakeFiles/transformer_optimizer.dir/src/main.cpp.o
 transformer_optimizer: CMakeFiles/transformer_optimizer.dir/src/data.cpp.o
+transformer_optimizer: CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.o
+transformer_optimizer: CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o
 transformer_optimizer: CMakeFiles/transformer_optimizer.dir/build.make
 transformer_optimizer: CMakeFiles/transformer_optimizer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable transformer_optimizer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable transformer_optimizer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/transformer_optimizer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

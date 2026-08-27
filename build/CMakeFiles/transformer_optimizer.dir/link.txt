@@ -1,1 +1,1 @@
-/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/transformer_optimizer.dir/src/main.cpp.o CMakeFiles/transformer_optimizer.dir/src/data.cpp.o -o transformer_optimizer
+/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/transformer_optimizer.dir/src/main.cpp.o CMakeFiles/transformer_optimizer.dir/src/data.cpp.o CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.o CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o -o transformer_optimizer

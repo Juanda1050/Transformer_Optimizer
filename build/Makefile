@@ -153,6 +153,30 @@ src/data.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/data.cpp.s
 .PHONY : src/data.cpp.s
 
+src/evaluator.o: src/evaluator.cpp.o
+.PHONY : src/evaluator.o
+
+# target to build an object file
+src/evaluator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.o
+.PHONY : src/evaluator.cpp.o
+
+src/evaluator.i: src/evaluator.cpp.i
+.PHONY : src/evaluator.i
+
+# target to preprocess a source file
+src/evaluator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.i
+.PHONY : src/evaluator.cpp.i
+
+src/evaluator.s: src/evaluator.cpp.s
+.PHONY : src/evaluator.s
+
+# target to generate assembly for a file
+src/evaluator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/evaluator.cpp.s
+.PHONY : src/evaluator.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -177,6 +201,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/optimizer.o: src/optimizer.cpp.o
+.PHONY : src/optimizer.o
+
+# target to build an object file
+src/optimizer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.o
+.PHONY : src/optimizer.cpp.o
+
+src/optimizer.i: src/optimizer.cpp.i
+.PHONY : src/optimizer.i
+
+# target to preprocess a source file
+src/optimizer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.i
+.PHONY : src/optimizer.cpp.i
+
+src/optimizer.s: src/optimizer.cpp.s
+.PHONY : src/optimizer.s
+
+# target to generate assembly for a file
+src/optimizer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/src/optimizer.cpp.s
+.PHONY : src/optimizer.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -189,9 +237,15 @@ help:
 	@echo "... src/data.o"
 	@echo "... src/data.i"
 	@echo "... src/data.s"
+	@echo "... src/evaluator.o"
+	@echo "... src/evaluator.i"
+	@echo "... src/evaluator.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/optimizer.o"
+	@echo "... src/optimizer.i"
+	@echo "... src/optimizer.s"
 .PHONY : help
 
 

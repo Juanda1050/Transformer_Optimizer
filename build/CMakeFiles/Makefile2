@@ -85,12 +85,12 @@ clean: CMakeFiles/transformer_optimizer.dir/clean
 CMakeFiles/transformer_optimizer.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles --progress-num=1,2,3 "Built target transformer_optimizer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target transformer_optimizer"
 .PHONY : CMakeFiles/transformer_optimizer.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/transformer_optimizer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/transformer_optimizer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles 0
 .PHONY : CMakeFiles/transformer_optimizer.dir/rule
@@ -102,7 +102,7 @@ transformer_optimizer: CMakeFiles/transformer_optimizer.dir/rule
 # codegen rule for target.
 CMakeFiles/transformer_optimizer.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/transformer_optimizer.dir/build.make CMakeFiles/transformer_optimizer.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles --progress-num=1,2,3 "Finished codegen for target transformer_optimizer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/juanda/Documents/Projects/transformer-optimizer/build/CMakeFiles --progress-num=1,2,3,4,5 "Finished codegen for target transformer_optimizer"
 .PHONY : CMakeFiles/transformer_optimizer.dir/codegen
 
 # clean rule for target.
