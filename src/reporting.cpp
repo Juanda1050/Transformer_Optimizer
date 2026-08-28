@@ -36,6 +36,34 @@ namespace
     return candidate.diameter < current.diameter;
   }
 
+  bool hasSortedRanking(const std::vector<EvaluationResult> &results)
+  {
+    if (results.size() < 2)
+      return true;
+
+    for (std::size_t i = 1; i < results.size(); ++i)
+    {
+      if (isBetterCandidate(results[i], results[i - 1]))
+        return false;
+    }
+
+    return true;
+  }
+
+  bool allDesignsSatisfyConstraints(const TransformerInstance &instance, const std::vector<EvaluationResult> &results)
+  {
+    for (const auto &result : results)
+    {
+      if (!result.feasible)
+        return false;
+
+      if (!isFeasible(instance, result.design, result))
+        return false;
+    }
+
+    return true;
+  }
+
   BenchmarkSummary benchmarkInstance(const TransformerInstance &instance)
   {
     BenchmarkSummary summary{};
@@ -135,6 +163,52 @@ bool reporting::validateOptimizationAgainstBruteforce()
   return true;
 }
 
+reporting::ValidationReport reporting::buildValidationReport(std::size_t topN)
+{
+  ValidationReport report{};
+  report.referenceComparison = validateOptimizationAgainstBruteforce();
+
+  if (topN == 0)
+    return report;
+
+  report.bestFeasibleDesign = true;
+  report.rankingOrder = true;
+  report.constraintChecks = true;
+
+  for (const auto &instance : getTransformerInstances())
+  {
+    const EvaluationResult best = optimizeDesign(instance);
+    if (!best.feasible)
+      report.bestFeasibleDesign = false;
+
+    const auto topDesigns = getTopDesigns(instance, topN);
+    if (topDesigns.empty())
+    {
+      report.rankingOrder = false;
+      report.constraintChecks = false;
+      continue;
+    }
+
+    if (!hasSortedRanking(topDesigns))
+      report.rankingOrder = false;
+
+    if (!allDesignsSatisfyConstraints(instance, topDesigns))
+      report.constraintChecks = false;
+  }
+
+  return report;
+}
+
+void reporting::printValidationReport(const ValidationReport &report)
+{
+  std::cout << "\nValidation\n";
+  std::cout << "----------\n";
+  std::cout << "Reference comparison: " << (report.referenceComparison ? "PASS" : "FAIL") << '\n';
+  std::cout << "Best feasible design: " << (report.bestFeasibleDesign ? "PASS" : "FAIL") << '\n';
+  std::cout << "Ranking order:        " << (report.rankingOrder ? "PASS" : "FAIL") << '\n';
+  std::cout << "Constraint checks:    " << (report.constraintChecks ? "PASS" : "FAIL") << '\n';
+}
+
 void reporting::printTopDesignsReport(std::size_t topN)
 {
   if (topN == 0)
@@ -145,26 +219,63 @@ void reporting::printTopDesignsReport(std::size_t topN)
   for (const auto &instance : getTransformerInstances())
   {
     const auto topDesigns = getTopDesigns(instance, topN);
+    const BenchmarkSummary summary = benchmarkInstance(instance);
 
     std::cout << "\nInstance_" << instance.id << "\n\n";
+
+    if (!topDesigns.empty())
+    {
+      const auto &best = topDesigns.front();
+      std::cout << "Best Feasible Design\n";
+      std::cout << "--------------------\n";
+      std::cout << "Core:        " << best.design.core->id << '\n';
+      std::cout << "Conductor:   " << best.design.conductor->id << '\n';
+      std::cout << "Cooling:     " << best.design.cooling->id << '\n';
+      std::cout << "Flux:        " << best.design.fluxDensity << '\n';
+      std::cout << "Current:     " << best.design.currentDensity << '\n';
+      std::cout << "Layers:      " << best.design.layers << '\n';
+      std::cout << "Ducts:       " << best.design.ducts << "\n\n";
+
+      std::cout << "Manufacturing Cost: " << best.manufacturingCost << '\n';
+      std::cout << "Total Losses:       " << best.totalLosses << '\n';
+      std::cout << "Temperature:        " << best.temperature << '\n';
+      std::cout << "Impedance:          " << best.impedance << '\n';
+      std::cout << "Diameter:           " << best.diameter << "\n\n";
+    }
+    else
+    {
+      std::cout << "Best Feasible Design\n";
+      std::cout << "--------------------\n";
+      std::cout << "No feasible design found.\n\n";
+    }
+
+    std::cout << "Top " << topN << " Designs\n";
+    std::cout << "--------------\n";
     std::cout << "Rank | Core | Conductor | Cooling | Flux | Current | Layers | Ducts | Cost | Losses | Diameter\n";
     std::cout << "----------------------------------------------------------------------------------------------------------\n";
 
     for (std::size_t i = 0; i < topDesigns.size(); ++i)
     {
       const auto &result = topDesigns[i];
-      std::cout << std::setw(4) << (i + 1) << " | "
-                << std::setw(4) << result.design.core->id << " | "
-                << std::setw(9) << result.design.conductor->id << " | "
-                << std::setw(7) << result.design.cooling->id << " | "
+      std::cout << std::setw(2) << (i + 1) << " | "
+                << std::setw(2) << result.design.core->id << " | "
+                << std::setw(2) << result.design.conductor->id << " | "
+                << std::setw(2) << result.design.cooling->id << " | "
                 << std::setw(4) << result.design.fluxDensity << " | "
-                << std::setw(7) << result.design.currentDensity << " | "
-                << std::setw(6) << result.design.layers << " | "
-                << std::setw(5) << result.design.ducts << " | "
-                << std::setw(8) << result.manufacturingCost << " | "
-                << std::setw(6) << result.totalLosses << " | "
-                << std::setw(8) << result.diameter << '\n';
+                << std::setw(4) << result.design.currentDensity << " | "
+                << std::setw(2) << result.design.layers << " | "
+                << std::setw(2) << result.design.ducts << " | "
+                << std::setw(7) << result.manufacturingCost << " | "
+                << std::setw(5) << result.totalLosses << " | "
+                << std::setw(4) << result.diameter << '\n';
     }
+
+    std::cout << "\nOptimization Summary\n";
+    std::cout << "--------------------\n";
+    std::cout << "Evaluated designs: " << summary.totalEvaluated << '\n';
+    std::cout << "Feasible designs:  " << summary.feasibleCount << '\n';
+    std::cout << "Best cost:         " << summary.bestCost << '\n';
+    std::cout << "Execution time:    " << summary.elapsedMs << " ms\n";
   }
 }
 

@@ -11,6 +11,7 @@ namespace
 
   constexpr int MIN_DUCTS = 0;
   constexpr int MAX_DUCTS = 5;
+  constexpr double NUMERIC_EPS = 1e-9;
 
   EvaluationResult buildEvaluationResult(const TransformerInstance &instance, const Design &design)
   {
@@ -25,7 +26,7 @@ namespace
     result.manufacturingCost = result.coreWeight * design.core->costPerKg + result.conductorWeight * design.conductor->costPerKg + design.cooling->costFactor + 500.0 * static_cast<double>(design.ducts) + 80.0 * static_cast<double>(design.layers);
     result.temperature = 35.0 + 12.0 * std::pow(design.currentDensity / 2.2, 2.0) - 4.0 * static_cast<double>(design.ducts) - design.cooling->temperatureReduction;
     result.impedance = 5.2 + 0.25 * static_cast<double>(design.layers - 8) + 0.8 * (design.fluxDensity - 1.55) - 0.35 * (design.currentDensity - 2.4) + 0.15 * static_cast<double>(design.ducts);
-    result.diameter = 1.1 + 0.00008 * result.conductorWeight + 0.00012 * result.coreWeight + 0.015 * static_cast<double>(design.layers);
+    result.diameter = 1.1 + 0.00008 * result.coreWeight + 0.00012 * result.conductorWeight + 0.015 * static_cast<double>(design.layers);
 
     return result;
   }
@@ -50,9 +51,13 @@ bool isPotentiallyFeasible(const TransformerInstance &instance, const Design &de
 
 bool isFeasible(const TransformerInstance &instance, const Design &design, const EvaluationResult &result)
 {
-  const bool validFluxDensity = design.fluxDensity >= MIN_FLUX_DENSITY && design.fluxDensity <= design.core->maxFluxDensity;
+  const bool validFluxDensity =
+      design.fluxDensity >= MIN_FLUX_DENSITY - NUMERIC_EPS &&
+      design.fluxDensity <= design.core->maxFluxDensity + NUMERIC_EPS;
 
-  const bool validCurrentDensity = design.currentDensity >= MIN_CURRENT_DENSITY && design.currentDensity <= design.conductor->maxCurrentDensity;
+  const bool validCurrentDensity =
+      design.currentDensity >= MIN_CURRENT_DENSITY - NUMERIC_EPS &&
+      design.currentDensity <= design.conductor->maxCurrentDensity + NUMERIC_EPS;
 
   const bool validLayers = design.layers >= MIN_LAYERS && design.layers <= MAX_LAYERS;
 

@@ -118,10 +118,6 @@ std::vector<EvaluationResult> optimizeDesigns(const TransformerInstance &instanc
               for (int ducts = MIN_DUCTS; ducts <= MAX_DUCTS; ++ducts)
               {
                 Design design{&core, &conductor, &cooling, fluxDensity, currentDensity, layers, ducts};
-
-                if (!isPotentiallyFeasible(instance, design))
-                  continue;
-
                 const EvaluationResult candidate = evaluateDesign(instance, design);
 
                 if (candidate.feasible)

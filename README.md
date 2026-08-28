@@ -4,8 +4,6 @@ C++17 application for evaluating and optimizing transformer design alternatives 
 
 The application explores the available design space, evaluates each candidate, filters infeasible configurations, and returns the best alternatives according to a defined ranking strategy.
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Juanda1050/Transformer_Optimizer)
-
 ## Overview
 
 A transformer design can be represented by a combination of material selections and operating parameters. The goal of this project is to systematically evaluate those combinations and identify feasible designs with the lowest manufacturing cost.
@@ -159,10 +157,42 @@ The optimization results are also compared against a brute-force reference to ve
 
 The application provides:
 
-- Best feasible design information.
-- Ranked alternatives for each transformer instance.
-- Optimization and validation information.
+- Best feasible design per instance.
+- Top-10 ranked alternatives per instance.
+- Optimization summary per instance.
+- Validation section with explicit PASS/FAIL checks.
 - CSV output containing the ranked designs.
+
+Console output is organized as:
+
+```text
+Transformer Optimizer
+=====================
+
+Instance_A
+
+Best Feasible Design
+--------------------
+...
+
+Top 10 Designs
+--------------
+...
+
+Optimization Summary
+--------------------
+Evaluated designs: ...
+Feasible designs:  ...
+Best cost:         ...
+Execution time:    ... ms
+
+Validation
+----------
+Reference comparison: PASS/FAIL
+Best feasible design: PASS/FAIL
+Ranking order:        PASS/FAIL
+Constraint checks:    PASS/FAIL
+```
 
 The generated CSV contains:
 
@@ -191,15 +221,14 @@ build/results.csv
 
 ## Validation
 
-The optimization process includes numerical validation against a brute-force reference implementation.
+The optimization process includes numerical validation against a brute-force reference implementation and prints explicit PASS/FAIL outcomes.
 
 Validation covers:
 
-- Feasibility of reported designs.
-- Validity of design parameter ranges.
-- Correct ranking order.
-- Rejection of invalid configurations.
-- Consistency between the optimizer and brute-force reference.
+- Reference comparison against brute-force optimum.
+- Best feasible design existence per instance.
+- Ranking order consistency (cost -> losses -> diameter).
+- Constraint checks over reported feasible designs.
 
 ## Requirements
 
